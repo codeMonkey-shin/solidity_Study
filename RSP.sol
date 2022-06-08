@@ -4,7 +4,7 @@ pragma solidity ^0.8.7;
 contract RSP {
     constructor () payable {}
 
-    enum Hand {// 가위/바위/보 값에 대한 enum
+    enum Hand {// 가위/바위/보 값에 대한 enum!
         rock, paper, scissors
     }
 
