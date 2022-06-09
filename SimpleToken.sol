@@ -1,4 +1,18 @@
-import "./ERC20Interface.sol";
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.10;
+
+interface ERC20Interface {
+    function totalSupply() external view returns (uint256);
+    function balanceOf(address account) external view returns (uint256);
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    function approve(address spender, uint256 amount) external returns (bool);
+    function allowance(address owner, address spender) external view returns (uint256);
+    function transferFrom(address spender, address recipient, uint256 amount) external returns (bool);
+
+    event Transfer(address indexed from, address indexed to, uint256 amount);
+    event Transfer(address indexed spender, address indexed from, address indexed to, uint256 amount);
+    event Approval(address indexed owner, address indexed spender, uint256 oldAmount, uint256 amount);
+}
 
 contract SimpleToken is ERC20Interface {
     mapping (address => uint256) private _balances;
@@ -15,7 +29,7 @@ contract SimpleToken is ERC20Interface {
         _symbol = getSymbol;
         _decimals = 18;
         _totalSupply = 100000000 * E18;
-        _balances[msg.sender] = _totalSupply; // 추가!!
+        _balances[msg.sender] = _totalSupply; // 추가
     }
 
     function name() public view returns (string memory) {
@@ -49,8 +63,7 @@ contract SimpleToken is ERC20Interface {
     }
 
     function approve(address spender, uint amount) external virtual override returns (bool) {
-        // uint256 currentAllownace = _allowances[spender][msg.sender];  // 삭제
-        uint256 currentAllowance = _allowances[msg.sender][spender];  // 추가
+        uint256 currentAllowance = _allowances[msg.sender][spender];  
         require(_balances[msg.sender] >= amount,"ERC20: The amount to be transferred exceeds the amount of tokens held by the owner.");
         _approve(msg.sender, spender, currentAllowance, amount);
         return true;
@@ -78,7 +91,7 @@ contract SimpleToken is ERC20Interface {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
         require(currentAmount == _allowances[owner][spender], "ERC20: invalid currentAmount");
-        _allowances[owner][spender] = amount;  // 삭제
+        _allowances[owner][spender] = amount;  
         emit Approval(owner, spender, currentAmount, amount);
     }
 }
