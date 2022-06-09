@@ -15,7 +15,7 @@ contract SimpleToken is ERC20Interface {
         _symbol = getSymbol;
         _decimals = 18;
         _totalSupply = 100000000 * E18;
-        _balances[msg.sender] = _totalSupply; // 추가
+        _balances[msg.sender] = _totalSupply; // 추가!!
     }
 
     function name() public view returns (string memory) {
